@@ -7,7 +7,7 @@
                         <h3 class="card-title">Users List</h3>
 
                         <div class="card-tools">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#addNew"> <i class="fas fa-user-plus"></i> Tambah</button>
+                            <button class="btn btn-success" @click="newModal()"> <i class="fas fa-user-plus"></i> Tambah</button>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -29,11 +29,11 @@
                             <td>{{user.type | upText }}</td>
                             <td>{{user.created_at | myDate }}</td>
                             <td>
-                                <a href="#">
+                                <a href="#" @click="editModal(user)">
                                     <i class="fa fa-edit cyan"></i>
                                 </a>
                                 /
-                                <a href="#">
+                                <a href="#" @click="deleteUser(user.id)">
                                     <i class="fa fa-trash red"></i>
                                 </a>
                             </td>
@@ -44,13 +44,14 @@
                 </div>
             </div>
         </div>
-        <form @submit.prevent="createUser">
+        <form @submit.prevent="editmode ? updateUser() : createUser()">
             <!-- Modal -->
             <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addNewLabel">Tambah User Baru</h5>
+                        <h5 v-show="!editmode" class="modal-title" id="addNewLabel">Tambah User Baru</h5>
+                        <h5 v-show="editmode" class="modal-title" id="addNewLabel">Edit User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -92,7 +93,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
+                        <button v-show="!editmode" type="submit" class="btn btn-primary">Buat</button>
                     </div>
                     </div>
                 </div>
@@ -105,6 +107,7 @@
     export default {
         data(){
             return{
+                editmode : false,
                 users : {},
                 form: new Form({
                     name : '',
@@ -112,27 +115,75 @@
                     password: '',
                     type: '',
                     photo: ''
-                })
+                }),
             }
         },
         methods: {
+            updateUser(){
+                console.log("editing data");
+            },
+            newModal(){
+                this.editmode = false;
+                this.form.reset();
+                $('#addNew').modal('show');
+            },
+            editModal(user){
+                this.editmode = true;
+                this.form.reset();
+                $('#addNew').modal('show');
+                this.form.fill(user);
+            },
             loadUsers(){
                 axios.get("api/user").then(({ data }) => (this.users = data.data));
             },
             createUser(){
                 this.$Progress.start();
-                this.form.post('api/user');
-                this.$Progress.finish();
-                $('#addNew').modal('hide');
-
-                toast.fire({
-                    type: 'success',
-                    title: 'User Created Successfully!'
+                this.form.post('api/user')
+                .then(()=>{
+                    this.$Progress.finish();
+                    $('#addNew').modal('hide');
+    
+                    toast.fire({
+                        type: 'success',
+                        title: 'User Created Successfully!'
+                    })
+    
+                    this.loadUsers();
+                    Fire.$emit('AfterCreate');
                 })
+                .catch(()=>{
+                    this.$Progress.fail();
+                })
+            },
+            deleteUser(id){
+                Swal.fire({
+                    title: 'Yakin Ingin Menghapus?',
+                    text: "Anda tidak bisa mengembalikannya!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yeah hapus!'
+                }).then((result) => {
+                    
+                    // send request to server
+                    if (result.value) {
+                        this.form.delete('api/user/'+id)
+                        .then(()=>{
+                            Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                            )
+                            this.loadUsers();
+                            Fire.$emit('AfterCreate');
+                        })
+                        .catch(()=>{
 
-                this.loadUsers();
-                Fire.$emit('AfterCreate');
-            }
+                        })
+                    }
+                })
+            },
 
         },
         created() {
