@@ -26,12 +26,13 @@
                             <td>{{user.id}}</td>
                             <td>{{user.name}}</td>
                             <td>{{user.email}}</td>
-                            <td>{{user.type}}</td>
-                            <td>{{user.created_at}}</td>
+                            <td>{{user.type | upText }}</td>
+                            <td>{{user.created_at | myDate }}</td>
                             <td>
                                 <a href="#">
                                     <i class="fa fa-edit cyan"></i>
                                 </a>
+                                /
                                 <a href="#">
                                     <i class="fa fa-trash red"></i>
                                 </a>
