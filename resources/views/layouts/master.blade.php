@@ -185,6 +185,10 @@ to get the desired effect
                         <i class="fas fa-users nav-icon"></i>
                         <p>Users</p>
                     </router-link>
+                    <router-link to="/vehicles" class="nav-link">
+                        <i class="fas fa-motorcycle nav-icon"></i>
+                        <p>Vehicles</p>
+                    </router-link>
                 </li>
             </ul>
             </li>
@@ -238,6 +242,7 @@ to get the desired effect
     <div class="content">
       <div class="container-fluid">
           <router-view></router-view>
+          <vue-progress-bar></vue-progress-bar>
       </div>
     </div>
     <!-- /.content -->
