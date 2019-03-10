@@ -10,14 +10,25 @@ require('./bootstrap');
 window.Vue = require('vue');
 import moment from 'moment';
 import {Form, HasError, AlertError} from 'vform';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import VueProgressBar from 'vue-progressbar'
+import Swal from 'sweetalert2'
 
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import VueProgressBar from 'vue-progressbar'
+window.Swal = Swal;
+
+const toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
+window.toast = toast;
 
 Vue.use(VueRouter)
 
