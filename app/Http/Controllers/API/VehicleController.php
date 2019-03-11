@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Vehicle;
 use App\Http\Controllers\Controller;
-use App\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class VehicleController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::latest()->paginate(10);
+        return Vehicle::latest()->paginate(10);
     }
 
     /**
@@ -38,17 +38,20 @@ class UserController extends Controller
     {
         $this->validate($request,[
             'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users',
-            'password' => 'required|string|min:8',
+            'number' => 'required|string|max:191',
             'type' => 'required',
         ]);
-        return User::create([
+
+        $id = Auth::id();
+
+        return Vehicle::create([
+            'user_id' => $id,
             'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
+            'number' => $request['number'],
             'type' => $request['type'],
-            'photo' => $request['photo'],
         ]);
+
+        // return $request->all();
     }
 
     /**
@@ -71,16 +74,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-
-        $this->validate($request,[
-            'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
-            'password' => 'sometimes|min:8',
-            'type' => 'required',
-        ]);
-
-        $user->update($request->all());
+        //
     }
 
     /**
@@ -91,11 +85,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-
-        //delete user
-        $user->delete();
-
-        return ['message'=>'User deleted'];
+        //
     }
 }

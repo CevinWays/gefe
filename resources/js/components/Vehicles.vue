@@ -7,7 +7,7 @@
                         <h3 class="card-title">Vehicle List</h3>
 
                         <div class="card-tools">
-                            
+                            <button class="btn btn-success" @click="newModal()"> <i class="fas fa-motorcycle"></i> Tambah</button>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -16,9 +16,9 @@
                         <tbody>
                         <tr>
                             <th>ID</th>
-                            <th>Username</th>
                             <th>Vehicle Identity</th>
                             <th>Vehicle's Name</th>
+                            <th>Owner</th>
                             <th>Register At</th>
                             <th>Modify</th>
                         </tr>
@@ -44,6 +44,53 @@
                 </div>
             </div>
         </div>
+
+        <form @submit.prevent="createVehicle()">
+            <!-- Modal -->
+            <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addNewLabel">Tambah Kendaraan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="form-group">
+                            <label>Nomor Kendaraan</label>
+                            <input v-model="form.number" type="number" name="number"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('number') }">
+                            <has-error :form="form" field="number"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Kendaraan</label>
+                            <input v-model="form.name" type="text" name="name"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                            <has-error :form="form" field="name"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Type Kendaraan</label>
+                            <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 
+                                'is-invalid': form.errors.has('type') }">
+                                    <option value="">Pilih tipe kendaraan</option>
+                                    <option value="dua">Roda dua</option>
+                                    <option value="empat">Roda Empat</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                                <has-error :form="form" field="type"></has-error>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Buat</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
 </template>
 
@@ -54,24 +101,35 @@
                 users : {},
                 form: new Form({
                     name : '',
-                    email : '',
-                    password: '',
-                    type: '',
-                    photo: ''
+                    number : '',
+                    type:'',
                 })
             }
         },
         methods: {
-            loadUsers(){
-                axios.get("api/user").then(({ data }) => (this.users = data.data));
+            newModal(){
+                this.form.reset();
+                $('#addNew').modal('show');
             },
-            createUser(){
-                this.form.post('api/user')
-            }
+            // loadVehicle(){
+            //     axios.get("api/vehicle").then(({ data }) => (this.users = data.data));
+            // },
+            createVehicle(){
+                this.$Progress.start();
+                this.form.post('api/vehicle')
+                .then(()=>{
+                    this.$Progress.finish();
+                    $('#addNew').modal('hide');
 
+                    toast.fire({
+                        type: 'success',
+                        title: 'Vehicle Created Successfully!'
+                    })
+                })
+                .catch(()=>{
+                    this.$Progress.fail();
+                })
+            }
         },
-        created() {
-            this.loadUsers();
-        }
     }
 </script>
