@@ -1990,6 +1990,7 @@ __webpack_require__.r(__webpack_exports__);
       editmode: false,
       users: {},
       form: new Form({
+        id: '',
         name: '',
         email: '',
         password: '',
@@ -1999,8 +2000,21 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    updateUser: function updateUser() {
-      console.log("editing data");
+    updateUser: function updateUser(id) {
+      var _this = this;
+
+      // console.log("editing data");
+      this.$Progress.start();
+      this.form.put('api/user/' + this.form.id).then(function () {
+        $('#addNew').modal('hide');
+        Swal.fire('Updated!', 'Berhasil terupdate!.', 'success');
+
+        _this.loadUsers();
+
+        Fire.$emit('AfterCreate');
+      }).catch(function () {
+        _this.$Progress.fail();
+      });
     },
     newModal: function newModal() {
       this.editmode = false;
@@ -2014,19 +2028,19 @@ __webpack_require__.r(__webpack_exports__);
       this.form.fill(user);
     },
     loadUsers: function loadUsers() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get("api/user").then(function (_ref) {
         var data = _ref.data;
-        return _this.users = data.data;
+        return _this2.users = data.data;
       });
     },
     createUser: function createUser() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$Progress.start();
       this.form.post('api/user').then(function () {
-        _this2.$Progress.finish();
+        _this3.$Progress.finish();
 
         $('#addNew').modal('hide');
         toast.fire({
@@ -2034,15 +2048,15 @@ __webpack_require__.r(__webpack_exports__);
           title: 'User Created Successfully!'
         });
 
-        _this2.loadUsers();
+        _this3.loadUsers();
 
         Fire.$emit('AfterCreate');
       }).catch(function () {
-        _this2.$Progress.fail();
+        _this3.$Progress.fail();
       });
     },
     deleteUser: function deleteUser(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       Swal.fire({
         title: 'Yakin Ingin Menghapus?',
@@ -2055,10 +2069,10 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         // send request to server
         if (result.value) {
-          _this3.form.delete('api/user/' + id).then(function () {
-            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          _this4.form.delete('api/user/' + id).then(function () {
+            Swal.fire('Deleted!', 'Berhasil terhapus.', 'success');
 
-            _this3.loadUsers();
+            _this4.loadUsers();
 
             Fire.$emit('AfterCreate');
           }).catch(function () {});
@@ -2067,11 +2081,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadUsers();
     Fire.$on('AfterCreate', function () {
-      _this4.loadUsers();
+      _this5.loadUsers();
     }); // setInterval(() => this.loadUsers(), 3000);
   }
 });
@@ -58765,48 +58779,6 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("label", [_vm._v("Password")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.password,
-                              expression: "form.password"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: {
-                            "is-invalid": _vm.form.errors.has("password")
-                          },
-                          attrs: { type: "password", name: "password" },
-                          domProps: { value: _vm.form.password },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.form,
-                                "password",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "password" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
                         _c("label", [_vm._v("Type")]),
                         _vm._v(" "),
                         _c(
@@ -58874,6 +58846,48 @@ var render = function() {
                         _vm._v(" "),
                         _c("has-error", {
                           attrs: { form: _vm.form, field: "type" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Password")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.password,
+                              expression: "form.password"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("password")
+                          },
+                          attrs: { type: "password", name: "password" },
+                          domProps: { value: _vm.form.password },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "password",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "password" }
                         })
                       ],
                       1

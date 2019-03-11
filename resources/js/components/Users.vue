@@ -71,12 +71,6 @@
                             <has-error :form="form" field="email"></has-error>
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
-                            <input v-model="form.password" type="password" name="password"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
-                            <has-error :form="form" field="password"></has-error>
-                        </div>
-                        <div class="form-group">
                             <label>Type</label>
                             <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 
                                 'is-invalid': form.errors.has('type') }">
@@ -88,6 +82,12 @@
                                     <option value="staff">Staff</option>
                                 </select>
                                 <has-error :form="form" field="type"></has-error>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input v-model="form.password" type="password" name="password"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
+                            <has-error :form="form" field="password"></has-error>
                         </div>
 
                     </div>
@@ -110,6 +110,7 @@
                 editmode : false,
                 users : {},
                 form: new Form({
+                    id : '',
                     name : '',
                     email : '',
                     password: '',
@@ -119,8 +120,23 @@
             }
         },
         methods: {
-            updateUser(){
-                console.log("editing data");
+            updateUser(id){
+                // console.log("editing data");
+                this.$Progress.start();
+                this.form.put('api/user/'+this.form.id)
+                .then(()=>{
+                    $('#addNew').modal('hide');
+                    Swal.fire(
+                        'Updated!',
+                        'Berhasil terupdate!.',
+                        'success'
+                    )
+                    this.loadUsers();
+                    Fire.$emit('AfterCreate');
+                })
+                .catch(()=>{
+                    this.$Progress.fail();
+                })
             },
             newModal(){
                 this.editmode = false;
@@ -172,7 +188,7 @@
                         .then(()=>{
                             Swal.fire(
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Berhasil terhapus.',
                             'success'
                             )
                             this.loadUsers();
