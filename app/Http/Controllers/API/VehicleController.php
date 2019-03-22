@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Vehicle;
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,6 +44,7 @@ class VehicleController extends Controller
         ]);
 
         $id = Auth::id();
+        // $id = auth('api')->user();
 
         return Vehicle::create([
             'user_id' => $id,

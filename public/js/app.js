@@ -2382,7 +2382,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      users: {},
+      vehicles: {},
       form: new Form({
         name: '',
         number: '',
@@ -2395,25 +2395,42 @@ __webpack_require__.r(__webpack_exports__);
       this.form.reset();
       $('#addNew').modal('show');
     },
-    // loadVehicle(){
-    //     axios.get("api/vehicle").then(({ data }) => (this.users = data.data));
-    // },
-    createVehicle: function createVehicle() {
+    loadVehicle: function loadVehicle() {
       var _this = this;
+
+      axios.get("api/vehicle").then(function (_ref) {
+        var data = _ref.data;
+        return _this.vehicles = data.data;
+      });
+    },
+    createVehicle: function createVehicle() {
+      var _this2 = this;
 
       this.$Progress.start();
       this.form.post('api/vehicle').then(function () {
-        _this.$Progress.finish();
+        _this2.$Progress.finish();
 
         $('#addNew').modal('hide');
         toast.fire({
           type: 'success',
           title: 'Vehicle Created Successfully!'
         });
+
+        _this2.loadVehicle();
+
+        Fire.$emit('AfterCreate');
       }).catch(function () {
-        _this.$Progress.fail();
+        _this2.$Progress.fail();
       });
     }
+  },
+  created: function created() {
+    var _this3 = this;
+
+    this.loadVehicle();
+    Fire.$on('AfterCreate', function () {
+      _this3.loadVehicle();
+    }); // setInterval(() => this.loadUsers(), 3000);
   }
 });
 
@@ -61142,7 +61159,33 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c("div", { staticClass: "card-body table-responsive p-0" }, [
+            _c("table", { staticClass: "table table-hover" }, [
+              _c(
+                "tbody",
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _vm._l(_vm.vehicles, function(vehicle) {
+                    return _c("tr", { key: vehicle.id }, [
+                      _c("td", [_vm._v(_vm._s(vehicle.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(vehicle.number))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(vehicle.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(vehicle.user_id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(vehicle.created_at))]),
+                      _vm._v(" "),
+                      _vm._m(1, true)
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
         ])
       ])
     ]),
@@ -61179,7 +61222,7 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(1),
+                  _vm._m(2),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
                     _c(
@@ -61325,7 +61368,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(2)
+                  _vm._m(3)
                 ])
               ]
             )
@@ -61340,47 +61383,31 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body table-responsive p-0" }, [
-      _c("table", { staticClass: "table table-hover" }, [
-        _c("tbody", [
-          _c("tr", [
-            _c("th", [_vm._v("ID")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Vehicle Identity")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Vehicle's Name")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Owner")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Register At")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Modify")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td", [
-              _c("a", { attrs: { href: "#" } }, [
-                _c("i", { staticClass: "fa fa-edit cyan" })
-              ]),
-              _vm._v(
-                "\n                            /\n                            "
-              ),
-              _c("a", { attrs: { href: "#" } }, [
-                _c("i", { staticClass: "fa fa-trash red" })
-              ])
-            ])
-          ])
-        ])
+    return _c("tr", [
+      _c("th", [_vm._v("ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Vehicle Identity")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Vehicle's Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Owner")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Register At")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Modify")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fa fa-edit cyan" })
+      ]),
+      _vm._v("\n                            /\n                            "),
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fa fa-trash red" })
       ])
     ])
   },

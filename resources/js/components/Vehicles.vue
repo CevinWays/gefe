@@ -22,12 +22,12 @@
                             <th>Register At</th>
                             <th>Modify</th>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr v-for="vehicle in vehicles" :key="vehicle.id">
+                            <td>{{vehicle.id}}</td>
+                            <td>{{vehicle.number}}</td>
+                            <td>{{vehicle.name}}</td>
+                            <td>{{vehicle.user_id}}</td>
+                            <td>{{vehicle.created_at}}</td>
                             <td>
                                 <a href="#">
                                     <i class="fa fa-edit cyan"></i>
@@ -98,7 +98,7 @@
     export default {
         data(){
             return{
-                users : {},
+                vehicles : {},
                 form: new Form({
                     name : '',
                     number : '',
@@ -111,9 +111,9 @@
                 this.form.reset();
                 $('#addNew').modal('show');
             },
-            // loadVehicle(){
-            //     axios.get("api/vehicle").then(({ data }) => (this.users = data.data));
-            // },
+            loadVehicle(){
+                axios.get("api/vehicle").then(({ data }) => (this.vehicles = data.data));
+            },
             createVehicle(){
                 this.$Progress.start();
                 this.form.post('api/vehicle')
@@ -125,11 +125,22 @@
                         type: 'success',
                         title: 'Vehicle Created Successfully!'
                     })
+
+                    this.loadVehicle();
+                    Fire.$emit('AfterCreate');
                 })
                 .catch(()=>{
                     this.$Progress.fail();
                 })
             }
         },
+        created() {
+            this.loadVehicle();
+            Fire.$on('AfterCreate',() => {
+                this.loadVehicle();
+            });
+            // setInterval(() => this.loadUsers(), 3000);
+
+        }
     }
 </script>
