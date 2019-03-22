@@ -6,7 +6,7 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle" src="" alt="User profile picture">
+                  <img class="profile-user-img img-fluid img-circle" :src="getProfilePhoto()" alt="User profile picture">
                 </div>
 
                 <h3 class="profile-username text-center">Nina Mcintire</h3>
@@ -200,6 +200,9 @@
                   text: 'You are uploading a large image!',
               })
             }
+          },
+          getProfilePhoto(){
+            return "img/profile/"+this.form.photo;
           }
         },
         created(){
