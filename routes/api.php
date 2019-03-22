@@ -21,3 +21,6 @@ Route::apiResources([
     'user' => 'API\UserController',
     'vehicle' => 'API\VehicleController',
     ]);
+
+Route::get('profile','API\UserController@profile');
+Route::put('profile','API\UserController@updateProfile');
