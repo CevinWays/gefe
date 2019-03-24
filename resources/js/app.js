@@ -16,6 +16,8 @@ import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
 import Gate from './Gate'
 
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 Vue.prototype.$gate = new Gate(window.user)
 
 window.Form = Form;
@@ -99,6 +101,11 @@ Vue.component(
 Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue').default
+);
+
+Vue.component(
+    'not-found',
+    require('./components/NotFound.vue').default
 );
 
 const app = new Vue({

@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+        <div class="row" v-if="!$gate.isAdmin()">
+            <not-found></not-found>
+        </div>
         <div class="row" v-if="$gate.isAdmin()">
             <div class="col-md-12">
                 <div class="card">
@@ -22,7 +25,7 @@
                             <th>Register At</th>
                             <th>Modify</th>
                         </tr>
-                        <tr v-for="user in users" :key="user.id">
+                        <tr v-for="user in users.data" :key="user.id">
                             <td>{{user.id}}</td>
                             <td>{{user.name}}</td>
                             <td>{{user.email}}</td>
@@ -41,6 +44,9 @@
                     </tbody></table>
                     </div>
                     <!-- /.card-body -->
+                    <div class="card-footer">
+                        <pagination :data="users" @pagination-change-page="getResults"></pagination>
+                    </div>
                 </div>
             </div>
         </div>
@@ -151,7 +157,7 @@
             },
             loadUsers(){
                 if (this.$gate.isAdmin()) {
-                    axios.get("api/user").then(({ data }) => (this.users = data.data));
+                    axios.get("api/user").then(({ data }) => (this.users = data));
                 }
             },
             createUser(){
@@ -202,6 +208,12 @@
                     }
                 })
             },
+            getResults(page = 1) {
+                axios.get('api/user?page=' + page)
+                    .then(response => {
+                        this.users = response.data;
+                    });
+            }
 
         },
         created() {
