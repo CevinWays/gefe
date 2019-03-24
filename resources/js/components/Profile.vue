@@ -9,9 +9,9 @@
                   <img class="profile-user-img img-fluid img-circle" :src="getProfilePhoto()" alt="User profile picture">
                 </div>
 
-                <h3 class="profile-username text-center">Nina Mcintire</h3>
+                <h3 class="profile-username text-center">Soleh Solikin</h3>
 
-                <p class="text-muted text-center">Software Engineer</p>
+                <p class="text-muted text-center">S1 Teknik Informatika</p>
               </div>
               <!-- /.card-body -->
             </div>
@@ -27,14 +27,14 @@
                 <strong><i class="fa fa-book mr-1"></i> Education</strong>
 
                 <p class="text-muted">
-                  B.S. in Computer Science from the University of Tennessee at Knoxville
+                  S1 Teknik Informatika Universitas Negeri Malang
                 </p>
 
                 <hr>
 
                 <strong><i class="fa fa-map-marker mr-1"></i> Location</strong>
 
-                <p class="text-muted">Malibu, California</p>
+                <p class="text-muted">Malang, Jawa Timur</p>
 
                 <hr>
 
@@ -173,9 +173,12 @@
         methods:{
           updateInfo(){
             this.$Progress.start();
+            if(this.form.password == ''){
+              this.form.password = undefined;
+            }
             this.form.put('api/profile/')
             .then(()=>{
-              
+              Fire.$emit('AfterCreate');
               this.$Progress.finish();
             })
             .catch(()=>{
@@ -202,7 +205,9 @@
             }
           },
           getProfilePhoto(){
-            return "img/profile/"+this.form.photo;
+
+            let photo = (this.form.photo.length > 200) ? this.form.photo : "img/profile/"+this.form.photo;
+            return photo;
           }
         },
         created(){

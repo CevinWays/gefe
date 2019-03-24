@@ -2018,7 +2018,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$Progress.start();
+
+      if (this.form.password == '') {
+        this.form.password = undefined;
+      }
+
       this.form.put('api/profile/').then(function () {
+        Fire.$emit('AfterCreate');
+
         _this.$Progress.finish();
       }).catch(function () {
         _this.$Progress.fail();
@@ -2046,7 +2053,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getProfilePhoto: function getProfilePhoto() {
-      return "img/profile/" + this.form.photo;
+      var photo = this.form.photo.length > 200 ? this.form.photo : "img/profile/" + this.form.photo;
+      return photo;
     }
   },
   created: function created() {
@@ -60286,11 +60294,11 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("h3", { staticClass: "profile-username text-center" }, [
-              _vm._v("Nina Mcintire")
+              _vm._v("Soleh Solikin")
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "text-muted text-center" }, [
-              _vm._v("Software Engineer")
+              _vm._v("S1 Teknik Informatika")
             ])
           ])
         ]),
@@ -60624,7 +60632,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", { staticClass: "text-muted" }, [
           _vm._v(
-            "\n              B.S. in Computer Science from the University of Tennessee at Knoxville\n            "
+            "\n              S1 Teknik Informatika Universitas Negeri Malang\n            "
           )
         ]),
         _vm._v(" "),
@@ -60635,7 +60643,7 @@ var staticRenderFns = [
           _vm._v(" Location")
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "text-muted" }, [_vm._v("Malibu, California")]),
+        _c("p", { staticClass: "text-muted" }, [_vm._v("Malang, Jawa Timur")]),
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
