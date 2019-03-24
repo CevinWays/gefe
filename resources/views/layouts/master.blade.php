@@ -175,6 +175,13 @@ to get the desired effect
 </div>
 <!-- ./wrapper -->
 
-<script src="/js/app.js"></script>
+@auth
+<script>
+  window.user = @json(auth()->user())
+</script>
+@endauth
+
+<script src="/js/app.js">
+</script>
 </body>
 </html>

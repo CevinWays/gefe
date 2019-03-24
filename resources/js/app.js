@@ -7,13 +7,16 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-import moment from 'moment';
-import {Form, HasError, AlertError} from 'vform';
+window.Vue = require('vue')
+import moment from 'moment'
+import {Form, HasError, AlertError} from 'vform'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
+import Gate from './Gate'
+
+Vue.prototype.$gate = new Gate(window.user)
 
 window.Form = Form;
 Vue.component(HasError.name, HasError)
@@ -63,8 +66,8 @@ Vue.filter('myDate', function(created){
     return moment(created).format('MMMM Do YYYY, h:mm:ss a');
 })
 
-let Fire = new Vue();
-window.Fire = Fire;
+let Fire = new Vue()
+window.Fire = Fire
 
 /**
  * The following block of code may be used to automatically register your
