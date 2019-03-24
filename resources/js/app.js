@@ -51,7 +51,8 @@ let routes = [
     { path: '/users', component: require('./components/Users.vue').default },
     { path: '/developer', component: require('./components/Developer.vue').default },
     { path: '/vehicles', component: require('./components/Vehicles.vue').default },
-    { path: '/usersvehicles', component: require('./components/UsersVehicles.vue').default }
+    { path: '/usersvehicles', component: require('./components/UsersVehicles.vue').default },
+    { path: '*', component: require('./components/NotFound.vue').default }
 ]
 
 const router = new VueRouter({

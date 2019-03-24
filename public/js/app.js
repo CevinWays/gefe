@@ -79929,6 +79929,9 @@ var routes = [{
 }, {
   path: '/usersvehicles',
   component: __webpack_require__(/*! ./components/UsersVehicles.vue */ "./resources/js/components/UsersVehicles.vue").default
+}, {
+  path: '*',
+  component: __webpack_require__(/*! ./components/NotFound.vue */ "./resources/js/components/NotFound.vue").default
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
   mode: 'history',
