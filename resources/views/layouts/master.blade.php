@@ -63,7 +63,7 @@ to get the desired effect
           <img src="./img/boy.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <a href="/profile" class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -78,6 +78,15 @@ to get the desired effect
               <p>Dashboard</p>
             </router-link>
           </li>
+          @cannot('isAdmin')
+          <li class="nav-item">
+            <router-link to="/usersvehicles" class="nav-link">
+              <i class="fas fa-motorcycle nav-icon"></i>
+              <p>Vehicles</p>
+            </router-link>
+          </li>
+          @endcan
+          @can('isAdmin')
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
                 <i class="nav-icon fa fa-cog teal"></i>
@@ -98,12 +107,6 @@ to get the desired effect
                     </router-link>
                 </li>
             </ul>
-            </li>
-          <li class="nav-item">
-            <router-link to="/profile" class="nav-link">
-              <i class="nav-icon fas fa-user orange"></i>
-              <p>Profile</p>
-            </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/developer" class="nav-link">
@@ -111,6 +114,7 @@ to get the desired effect
               <p>Developer</p>
             </router-link>
           </li>
+          @endcan
           <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
@@ -137,15 +141,6 @@ to get the desired effect
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-          </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>

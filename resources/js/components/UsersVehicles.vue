@@ -6,9 +6,9 @@
                     <div class="card-header">
                         <h3 class="card-title">Vehicle List</h3>
 
-                        <!-- <div class="card-tools">
+                        <div class="card-tools">
                             <button class="btn btn-success" @click="newModal()"> <i class="fas fa-motorcycle"></i> Tambah</button>
-                        </div> -->
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
