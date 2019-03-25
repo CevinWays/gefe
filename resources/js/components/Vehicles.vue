@@ -36,7 +36,7 @@
                                     <i class="fa fa-edit cyan"></i>
                                 </a>
                                 /
-                                <a href="#">
+                                <a href="#" @click="deleteVehicle(vehicle.id)">
                                     <i class="fa fa-trash red"></i>
                                 </a>
                             </td>
@@ -161,6 +161,37 @@
                 this.form.reset();
                 $('#addNew').modal('show');
                 this.form.fill(vehicle);
+            },
+            deleteVehicle(id){
+                Swal.fire({
+                    title: 'Yakin Ingin Menghapus?',
+                    text: "Anda tidak bisa mengembalikannya!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yeah hapus!'
+                }).then((result)=>{
+
+                    // send request to server
+                    if (result.value) {
+                        this.form.delete('api/vehicle/'+id)
+                        .then(()=>{
+                            Swal.fire(
+                            'Deleted!',
+                            'Berhasil terhapus.',
+                            'success'
+                            )
+                            this.loadVehicle();
+                            Fire.$emit('AfterCreate');
+                        })
+                        .catch(()=>{
+                            this.$Progress.fail();
+                        })
+                    }
+
+                })
+                console.log("deleting data");
             }
         },
         created() {

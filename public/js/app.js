@@ -2313,7 +2313,9 @@ __webpack_require__.r(__webpack_exports__);
             _this4.loadUsers();
 
             Fire.$emit('AfterCreate');
-          }).catch(function () {});
+          }).catch(function () {
+            _this4.$Progress.fail();
+          });
         }
       });
     },
@@ -2674,14 +2676,41 @@ __webpack_require__.r(__webpack_exports__);
       this.form.reset();
       $('#addNew').modal('show');
       this.form.fill(vehicle);
+    },
+    deleteVehicle: function deleteVehicle(id) {
+      var _this4 = this;
+
+      Swal.fire({
+        title: 'Yakin Ingin Menghapus?',
+        text: "Anda tidak bisa mengembalikannya!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yeah hapus!'
+      }).then(function (result) {
+        // send request to server
+        if (result.value) {
+          _this4.form.delete('api/vehicle/' + id).then(function () {
+            Swal.fire('Deleted!', 'Berhasil terhapus.', 'success');
+
+            _this4.loadVehicle();
+
+            Fire.$emit('AfterCreate');
+          }).catch(function () {
+            _this4.$Progress.fail();
+          });
+        }
+      });
+      console.log("deleting data");
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadVehicle();
     Fire.$on('AfterCreate', function () {
-      _this4.loadVehicle();
+      _this5.loadVehicle();
     }); // setInterval(() => this.loadUsers(), 3000);
   }
 });
@@ -63750,7 +63779,18 @@ var render = function() {
                             _vm._v(
                               "\n                            /\n                            "
                             ),
-                            _vm._m(1, true)
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteVehicle(vehicle.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash red" })]
+                            )
                           ])
                         ])
                       })
@@ -63796,7 +63836,7 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(2),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
                     _c(
@@ -63942,7 +63982,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(3)
+                  _vm._m(2)
                 ])
               ]
             )
@@ -63969,14 +64009,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Register At")]),
       _vm._v(" "),
       _c("th", [_vm._v("Modify")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#" } }, [
-      _c("i", { staticClass: "fa fa-trash red" })
     ])
   },
   function() {
