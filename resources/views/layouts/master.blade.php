@@ -33,16 +33,16 @@ to get the desired effect
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    {{-- <form class="form-inline ml-3"> --}}
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" v-model="search" @keyup.enter="searchit" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" @click="searchit" type="submit">
             <i class="fa fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
+    {{-- </form> --}}
   </nav>
   <!-- /.navbar -->
 
