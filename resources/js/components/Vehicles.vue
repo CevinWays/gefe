@@ -9,9 +9,9 @@
                     <div class="card-header">
                         <h3 class="card-title">Vehicle List</h3>
 
-                        <!-- <div class="card-tools">
+                        <div class="card-tools">
                             <button class="btn btn-success" @click="newModal()"> <i class="fas fa-motorcycle"></i> Tambah</button>
-                        </div> -->
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
@@ -32,7 +32,7 @@
                             <td>{{vehicle.user_id}}</td>
                             <td>{{vehicle.created_at}}</td>
                             <td>
-                                <a href="#">
+                                <a href="#" @click="editModal(vehicle)">
                                     <i class="fa fa-edit cyan"></i>
                                 </a>
                                 /
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <form @submit.prevent="createVehicle()">
+        <form @submit.prevent="editmode ? updateVehicle() :createVehicle()">
             <!-- Modal -->
             <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -103,6 +103,7 @@
             return{
                 vehicles : {},
                 form: new Form({
+                    id: '',
                     name : '',
                     number : '',
                     type:'',
@@ -135,6 +136,31 @@
                 .catch(()=>{
                     this.$Progress.fail();
                 })
+            },
+            updateVehicle(id){
+                this.$Progress.start();
+                this.form.put('api/vehicle/'+this.form.id)
+                .then(()=>{
+                    $('#addNew').modal('hide');
+                    Swal.fire(
+                        'Updated!',
+                        'Berhasil terupdate!.',
+                        'success'
+                    )
+                    this.loadVehicle();
+                    Fire.$emit('AfterCreate');
+                })
+                .catch(()=>{
+                    this.$Progress.fail();
+                })
+
+                console.log("editing data");
+            },
+            editModal(vehicle){
+                this.editmode = true;
+                this.form.reset();
+                $('#addNew').modal('show');
+                this.form.fill(vehicle);
             }
         },
         created() {

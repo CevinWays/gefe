@@ -2613,6 +2613,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       vehicles: {},
       form: new Form({
+        id: '',
         name: '',
         number: '',
         type: ''
@@ -2651,14 +2652,36 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function () {
         _this2.$Progress.fail();
       });
+    },
+    updateVehicle: function updateVehicle(id) {
+      var _this3 = this;
+
+      this.$Progress.start();
+      this.form.put('api/vehicle/' + this.form.id).then(function () {
+        $('#addNew').modal('hide');
+        Swal.fire('Updated!', 'Berhasil terupdate!.', 'success');
+
+        _this3.loadVehicle();
+
+        Fire.$emit('AfterCreate');
+      }).catch(function () {
+        _this3.$Progress.fail();
+      });
+      console.log("editing data");
+    },
+    editModal: function editModal(vehicle) {
+      this.editmode = true;
+      this.form.reset();
+      $('#addNew').modal('show');
+      this.form.fill(vehicle);
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.loadVehicle();
     Fire.$on('AfterCreate', function () {
-      _this3.loadVehicle();
+      _this4.loadVehicle();
     }); // setInterval(() => this.loadUsers(), 3000);
   }
 });
@@ -63668,14 +63691,36 @@ var render = function() {
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(0),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [
+                  _vm._v("Vehicle List")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          return _vm.newModal()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-motorcycle" }),
+                      _vm._v(" Tambah")
+                    ]
+                  )
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body table-responsive p-0" }, [
                 _c("table", { staticClass: "table table-hover" }, [
                   _c(
                     "tbody",
                     [
-                      _vm._m(1),
+                      _vm._m(0),
                       _vm._v(" "),
                       _vm._l(_vm.vehicles, function(vehicle) {
                         return _c("tr", { key: vehicle.id }, [
@@ -63689,7 +63734,24 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(vehicle.created_at))]),
                           _vm._v(" "),
-                          _vm._m(2, true)
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editModal(vehicle)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-edit cyan" })]
+                            ),
+                            _vm._v(
+                              "\n                            /\n                            "
+                            ),
+                            _vm._m(1, true)
+                          ])
                         ])
                       })
                     ],
@@ -63708,7 +63770,7 @@ var render = function() {
         on: {
           submit: function($event) {
             $event.preventDefault()
-            return _vm.createVehicle()
+            _vm.editmode ? _vm.updateVehicle() : _vm.createVehicle()
           }
         }
       },
@@ -63734,7 +63796,7 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(3),
+                  _vm._m(2),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
                     _c(
@@ -63880,7 +63942,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(4)
+                  _vm._m(3)
                 ])
               ]
             )
@@ -63891,14 +63953,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Vehicle List")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -63921,14 +63975,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-edit cyan" })
-      ]),
-      _vm._v("\n                            /\n                            "),
-      _c("a", { attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-trash red" })
-      ])
+    return _c("a", { attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fa fa-trash red" })
     ])
   },
   function() {
@@ -79929,9 +79977,6 @@ var routes = [{
 }, {
   path: '/usersvehicles',
   component: __webpack_require__(/*! ./components/UsersVehicles.vue */ "./resources/js/components/UsersVehicles.vue").default
-}, {
-  path: '*',
-  component: __webpack_require__(/*! ./components/NotFound.vue */ "./resources/js/components/NotFound.vue").default
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
   mode: 'history',
