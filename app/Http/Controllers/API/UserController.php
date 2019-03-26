@@ -80,7 +80,7 @@ class UserController extends Controller
             $name = time().'.' . explode('/', explode(':', substr
             ($request->photo, 0, strpos($request->photo,';')))[1])[1];
 
-            Image::make($request->photo)->save(public_path('img/profile/').$name);
+            \Image::make($request->photo)->save(public_path('img/profile/').$name);
 
             $request->merge(['photo' => $name]);
 
@@ -144,6 +144,8 @@ class UserController extends Controller
                     ->orWhere('email','LIKE',"%$search%")
                     ->orWhere('type','LIKE',"%$search%");
             })->paginate(10);
+        }else{
+            $users = User::latest()->paginate(10);
         }
 
         return $users;

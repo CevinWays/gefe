@@ -80056,10 +80056,10 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
     search: ''
   },
   methods: {
-    searchit: function searchit() {
+    searchit: _.debounce(function () {
       Fire.$emit('searching');
       console.log("searching it..");
-    }
+    }, 1000)
   }
 });
 
