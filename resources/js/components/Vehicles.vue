@@ -54,7 +54,8 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addNewLabel">Tambah Kendaraan</h5>
+                        <h5 v-show="!editmode" class="modal-title" id="addNewLabel">Tambah Kendaraan Baru</h5>
+                        <h5 v-show="editmode" class="modal-title" id="addNewLabel">Edit Kendaraan</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -87,7 +88,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Buat</button>
+                        <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
+                        <button v-show="!editmode" type="submit" class="btn btn-primary">Buat</button>
                     </div>
                     </div>
                 </div>
@@ -101,6 +103,7 @@
     export default {
         data(){
             return{
+                editmode : false,
                 vehicles : {},
                 form: new Form({
                     id: '',
@@ -112,6 +115,7 @@
         },
         methods: {
             newModal(){
+                this.editmode = false;
                 this.form.reset();
                 $('#addNew').modal('show');
             },
