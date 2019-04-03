@@ -145,7 +145,7 @@
                         </div>
                         <div class="landingContent">
                             <div class="contentLeft">
-                                <h1>All Your Vehicle Safety With GET SAFE.</h1> 
+                                <h1>All Your Vehicle Safe With GET SAFE.</h1> 
                                 <p>We provide the best system security for all your vehicle, <br>You can controll it on your smartphone anywhere and everywhere.</p>
                                 <p>Get our application now by download the application below! <br>
                                 Or you just can access the website </p>
