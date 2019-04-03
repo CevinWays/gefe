@@ -101,4 +101,12 @@ class VehicleController extends Controller
 
         return ['message'=>'Vehicle deleted'];
     }
+
+    public function vehicle(){
+
+        $user = auth('api')->user();
+        $vehicle = Vehicle::where('user_id',$user->id)->get();
+
+        return $vehicle;
+    }
 }

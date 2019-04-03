@@ -29514,3 +29514,7 @@ readers do not read off random characters that represent icons */
   color: white;
 }
 
+.login-img {
+  width: 600px;
+}
+

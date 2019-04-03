@@ -29,7 +29,7 @@
                             <td>{{vehicle.user_id}}</td>
                             <td>{{vehicle.created_at}}</td>
                             <td>
-                                <a href="#">
+                                <a href="#" @click="editModal(vehicle)">
                                     <i class="fa fa-edit cyan"></i>
                                 </a>
                                 /
@@ -45,13 +45,14 @@
             </div>
         </div>
 
-        <form @submit.prevent="createVehicle()">
+        <form @submit.prevent="editmode ? updateVehicle() :createVehicle()">
             <!-- Modal -->
             <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addNewLabel">Tambah Kendaraan</h5>
+                        <h5 v-show="!editmode" class="modal-title" id="addNewLabel">Tambah Kendaraan Baru</h5>
+                        <h5 v-show="editmode" class="modal-title" id="addNewLabel">Edit Kendaraan</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -84,7 +85,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Buat</button>
+                        <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
+                        <button v-show="!editmode" type="submit" class="btn btn-primary">Buat</button>
                     </div>
                     </div>
                 </div>
@@ -98,6 +100,7 @@
     export default {
         data(){
             return{
+                editmode : false,
                 vehicles : {},
                 form: new Form({
                     name : '',
@@ -112,7 +115,7 @@
                 $('#addNew').modal('show');
             },
             loadVehicle(){
-                axios.get("api/vehicle").then(({ data }) => (this.vehicles = data.data));
+                axios.get("api/userVehicle").then(({ data }) => (this.vehicles = data));
             },
             createVehicle(){
                 this.$Progress.start();
@@ -132,6 +135,31 @@
                 .catch(()=>{
                     this.$Progress.fail();
                 })
+            },
+            editModal(vehicle){
+                this.editmode = true;
+                this.form.reset();
+                $('#addNew').modal('show');
+                this.form.fill(vehicle);
+            },
+            updateVehicle(id){
+                this.$Progress.start();
+                this.form.put('api/vehicle/'+this.form.id)
+                .then(()=>{
+                    $('#addNew').modal('hide');
+                    Swal.fire(
+                        'Updated!',
+                        'Berhasil terupdate!.',
+                        'success'
+                    )
+                    this.loadVehicle();
+                    Fire.$emit('AfterCreate');
+                })
+                .catch(()=>{
+                    this.$Progress.fail();
+                })
+
+                console.log("editing data");
             }
         },
         created() {
