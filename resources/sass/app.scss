@@ -19,12 +19,26 @@ $fa-font-path: "../webfonts";
 
 .navbar-laravel {
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgba(41, 40, 40, 0.04);
 }
 .router-link-exact-active{
-  background-color: rgb(54, 54, 207);
+  background-color: #6C63FF;
   color: white;
 }
 .login-img{
-  width: 600px;
+  width: 500px;
+}
+.btn-gefe-login{
+  color: white;
+  background-color: #6C63FF;
+}
+.card-gefe{
+  background-color: #6C63FF;
+  border-bottom: 0;
+}
+.card-gefe .card-outline {
+  border-top: 3px solid #6C63FF;
+}
+.container-mt10{
+  margin-top: 100px;
 }

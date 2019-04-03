@@ -7,6 +7,8 @@
             <img class="login-img" src="img/login.png" alt="login undraw">
         </div>
         <div class="col-md-6 mt-5">
+            <h2>Welcome Back!</h2>
+            <p>To keep using our service, sign in using the email and password you signed up with</p>
             <div class="card">
                 <div class="card-header bg-dark">{{ __('Login') }}</div>
 
@@ -56,7 +58,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-gefe-login">
                                     {{ __('Login') }}
                                 </button>
 

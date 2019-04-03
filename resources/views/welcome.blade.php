@@ -31,7 +31,7 @@
             }
             .landing{
                 overflow: hidden;
-                min-width: 600px;
+                min-width: 500px;
                 position: relative;
             }
             .nav{
@@ -54,7 +54,7 @@
             }
             .landingContent{
                 width: 88%;
-                margin: 70px 50px 0 50px;
+                margin: 100px 50px 0 50px;
                 display: flex;
             }
             .aboutContent{
@@ -68,12 +68,16 @@
             .contentRight{
                 flex: 0 0 45%;
             }
-            .contentLeft h1, .contentLeft p{
+            .contentLeft h1{
                 color: #212121;
                 text-decoration: none;
             }
+            .contentLeft p{
+                color: #504B87;
+                text-decoration: none;
+            }
             .btnTwo{
-                background-color: #212121;
+                background-color: #7B73FF;
                 border-radius: 100px;
                 padding: 0.8em 1.75em;
                 display: block;
@@ -84,7 +88,7 @@
                 color: white;
             }
             h1{
-                font-size: 36px;
+                font-size: 30px;
                 margin-bottom: 18px;
             }
             p{
@@ -98,7 +102,7 @@
             }
             .iphoneHand{
                 margin-top: -40px;
-                width: 600px;
+                width: 650px;
             }
             .img-group{
                 width: 420px;
@@ -141,7 +145,7 @@
                         </div>
                         <div class="landingContent">
                             <div class="contentLeft">
-                                <h1>All Your Vehicle Safety<br>With GET SAFE.</h1> 
+                                <h1>All Your Vehicle Safety With GET SAFE.</h1> 
                                 <p>We provide the best system security for all your vehicle, <br>You can controll it on your smartphone anywhere and everywhere.</p>
                                 <p>Get our application now by download the application below! <br>
                                 Or you just can access the website </p>

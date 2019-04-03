@@ -47,12 +47,12 @@ to get the desired effect
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-light-dark elevation-1">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <img src="./img/cctv.png" alt="gatesafe_logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Get Safe</span>
+      <span class="brand-text">Get Safe</span>
     </a>
 
     <!-- Sidebar -->
@@ -80,7 +80,7 @@ to get the desired effect
                with font-awesome or any other icon font library -->
           <li class="nav-item">
             <router-link to="/dashboard" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt cyan"></i>
+              <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Dashboard</p>
             </router-link>
           </li>
@@ -95,7 +95,7 @@ to get the desired effect
           @can('isAdmin')
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-cog teal"></i>
+                <i class="nav-icon fa fa-cog"></i>
                 <p>
                 Management
                 <i class="fa fa-angle-left right"></i>

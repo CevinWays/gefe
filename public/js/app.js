@@ -1791,6 +1791,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -2454,6 +2458,7 @@ __webpack_require__.r(__webpack_exports__);
       editmode: false,
       vehicles: {},
       form: new Form({
+        id: '',
         name: '',
         number: '',
         type: ''
@@ -2514,14 +2519,41 @@ __webpack_require__.r(__webpack_exports__);
         _this3.$Progress.fail();
       });
       console.log("editing data");
+    },
+    deleteVehicle: function deleteVehicle(id) {
+      var _this4 = this;
+
+      Swal.fire({
+        title: 'Yakin Ingin Menghapus?',
+        text: "Anda tidak bisa mengembalikannya!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yeah hapus!'
+      }).then(function (result) {
+        // send request to server
+        if (result.value) {
+          _this4.form.delete('api/vehicle/' + id).then(function () {
+            Swal.fire('Deleted!', 'Berhasil terhapus.', 'success');
+
+            _this4.loadVehicle();
+
+            Fire.$emit('AfterCreate');
+          }).catch(function () {
+            _this4.$Progress.fail();
+          });
+        }
+      });
+      console.log("deleting data");
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadVehicle();
     Fire.$on('AfterCreate', function () {
-      _this4.loadVehicle();
+      _this5.loadVehicle();
     }); // setInterval(() => this.loadUsers(), 3000);
   }
 });
@@ -61862,9 +61894,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("h3", [_vm._v("Welcome To Your Dashboard")]),
-        _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
         _c(
           "svg",
           {
@@ -64882,11 +64912,34 @@ var render = function() {
             })
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _vm._m(0)
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 container-mt10" }, [
+      _c("h2", [_vm._v("Manage Everything Right Now!")]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni"
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni"
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -65474,7 +65527,7 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-3" }, [
-        _c("div", { staticClass: "card card-primary card-outline" }, [
+        _c("div", { staticClass: "card card-outline" }, [
           _c("div", { staticClass: "card-body box-profile" }, [
             _c("div", { staticClass: "text-center" }, [
               _c("img", {
@@ -65812,7 +65865,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card card-primary" }, [
+    return _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-header" }, [
         _c("h3", { staticClass: "card-title" }, [_vm._v("About Me")])
       ]),
@@ -66459,7 +66512,18 @@ var render = function() {
                         _vm._v(
                           "\n                            /\n                            "
                         ),
-                        _vm._m(1, true)
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteVehicle(vehicle.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-trash red" })]
+                        )
                       ])
                     ])
                   })
@@ -66539,7 +66603,7 @@ var render = function() {
                       [_vm._v("Edit Kendaraan")]
                     ),
                     _vm._v(" "),
-                    _vm._m(2)
+                    _vm._m(1)
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
@@ -66756,14 +66820,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Register At")]),
       _vm._v(" "),
       _c("th", [_vm._v("Modify")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#" } }, [
-      _c("i", { staticClass: "fa fa-trash red" })
     ])
   },
   function() {

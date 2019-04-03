@@ -3,12 +3,14 @@
 @section('content')
 <div class="container bg-white">
     <div class="row justify-content-end">
-        <div class="col-md-6">
+        <div class="col-md-6 mt-5">
             <img class="login-img" src="img/register.png" alt="">
         </div>
         <div class="col-md-6 mt-5">
+            <h2>Register Your Self!</h2>
+            <p>Sign yourself with easy way, sign up using the email and password that you want</p>
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header bg-dark">{{ __('Register') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">

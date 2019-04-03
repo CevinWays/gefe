@@ -3,7 +3,7 @@
         <div class="row">
           <div class="col-md-3">
             <!-- Profile Image -->
-            <div class="card card-primary card-outline">
+            <div class="card card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle" :src="getProfilePhoto()" alt="User profile picture">
@@ -18,7 +18,7 @@
             <!-- /.card -->
 
             <!-- About Me Box -->
-            <div class="card card-primary">
+            <div class="card">
               <div class="card-header">
                 <h3 class="card-title">About Me</h3>
               </div>
