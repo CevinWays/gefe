@@ -29518,6 +29518,11 @@ readers do not read off random characters that represent icons */
   width: 500px;
 }
 
+.login-img-400 {
+  width: 400px;
+  margin-left: 100px;
+}
+
 .btn-gefe-login {
   color: white;
   background-color: #6C63FF;
@@ -29534,5 +29539,9 @@ readers do not read off random characters that represent icons */
 
 .container-mt10 {
   margin-top: 100px;
+}
+
+button a .link-none {
+  text-decoration: none;
 }
 
